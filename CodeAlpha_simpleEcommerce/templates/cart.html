@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>🛒 Shopping Cart</h1>
+</header>
+
+<div style="max-width:1200px; margin:30px auto;">
+
+    {% if products %}
+
+        <h2 style="margin-bottom:20px;">
+            Items in Your Cart ({{ products|length }})
+        </h2>
+
+        <div class="products">
+
+            {% for product in products %}
+
+            <div class="card">
+
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+
+                <div class="card-content">
+
+                    <h2>{{ product.name }}</h2>
+
+                    <p>{{ product.description }}</p>
+
+                    <p class="price">₹{{ product.price }}</p>
+                    <a href="/remove-from-cart/{{ product.id }}/" class="btn">
+    Remove From Cart
+</a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div style="
+            background:white;
+            padding:25px;
+            margin-top:30px;
+            border-radius:10px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+            text-align:center;
+        ">
+
+            <h2>Ready to Checkout?</h2>
+
+            <p style="margin:15px 0;">
+                Review your selected products and continue shopping or proceed to checkout.
+            </p>
+
+            <a href="/" class="btn" style="display:inline-block; width:auto; padding:12px 25px;">
+                Continue Shopping
+            </a>
+            <a href="/checkout/" class="btn">
+    Checkout
+</a>
+<h2 style="text-align:center; margin:20px 0;">
+    Total Amount: ₹{{ total }}
+</h2>
+
+        </div>
+
+    {% else %}
+
+        <div style="
+            background:white;
+            padding:50px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+        ">
+
+            <h2>Your Cart is Empty</h2>
+
+            <p style="margin:15px 0;">
+                Browse our latest products and add items to your cart.
+            </p>
+
+            <a href="/" class="btn" style="display:inline-block; width:auto; padding:12px 25px;">
+                Start Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

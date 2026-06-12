@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Account - TechStore</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>TechStore</h1>
+</header>
+
+<div style="max-width:500px; margin:50px auto;">
+
+    <div class="card">
+
+        <div class="card-content">
+
+            <h2 style="text-align:center;">Create Your Account</h2>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <label>Username</label><br>
+                {{ form.username }}
+
+                <br><br>
+
+                <label>Password</label><br>
+                {{ form.password1 }}
+
+                <br><br>
+
+                <label>Confirm Password</label><br>
+                {{ form.password2 }}
+
+                <br><br>
+
+                <button type="submit" class="btn">
+                    Create Account
+                </button>
+
+            </form>
+
+            <br>
+
+            <p style="text-align:center;">
+                Already have an account?
+                <a href="/accounts/login/">Login Here</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
