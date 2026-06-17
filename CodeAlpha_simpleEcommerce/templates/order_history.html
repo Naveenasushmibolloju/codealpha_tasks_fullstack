@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders - TechStore</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        <h1>🛒 TechStore</h1>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/cart/">Cart</a>
+
+        <a href="/orders/">My Orders</a>
+
+    </div>
+
+</header>
+
+<div class="page-title">
+
+    <h1>📦 My Orders</h1>
+
+</div>
+
+<div class="products">
+
+    {% for order in orders %}
+
+    <div class="card">
+
+        <img src="{{ order.product.image }}" alt="{{ order.product.name }}">
+
+        <div class="card-content">
+
+            <h2>{{ order.product.name }}</h2>
+
+            <p>
+                <strong>Quantity:</strong>
+                {{ order.quantity }}
+            </p>
+
+            <p class="price">
+                ₹{{ order.total_price }}
+            </p>
+
+            <p>
+                <strong>Ordered On:</strong>
+                {{ order.created_at|date:"d M Y" }}
+            </p>
+
+            <p class="delivered">
+                ✓ Delivered
+            </p>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty-orders">
+
+        <h2>No Orders Yet</h2>
+
+        <p>Start shopping and place your first order.</p>
+
+        <a href="/" class="btn">
+            Shop Now
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

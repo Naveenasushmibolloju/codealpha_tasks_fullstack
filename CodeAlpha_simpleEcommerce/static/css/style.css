@@ -1,0 +1,263 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+background:linear-gradient(
+90deg,
+#ff512f,
+#dd2476,
+#6a11cb,
+#2575fc
+) !important;
+
+
+padding:18px 40px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+box-shadow:0 4px 15px rgba(0,0,0,0.25);
+
+
+}
+
+.logo h1{
+margin:0;
+color:white;
+font-size:34px;
+font-weight:900;
+letter-spacing:1px;
+
+
+text-shadow:
+    0 0 5px white,
+    0 0 10px white,
+    0 0 20px gold,
+    0 0 30px gold;
+
+
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+font-size:18px;
+font-weight:bold;
+padding:8px 14px;
+border-radius:8px;
+transition:0.3s;
+}
+
+.nav-links a:hover{
+background:white;
+color:#6a11cb;
+}
+
+.nav-links span{
+color:white;
+font-weight:bold;
+font-size:16px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+text-align:center;
+padding:25px;
+}
+
+input[type="text"]{
+width:320px;
+padding:12px;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+padding:25px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+
+
+box-shadow:0 5px 15px rgba(0,0,0,0.12);
+
+transition:0.3s;
+
+
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card img{
+width:100%;
+height:250px;
+object-fit:contain;
+background:white;
+padding:15px;
+}
+
+.card-content{
+padding:18px;
+}
+
+.card h2{
+font-size:22px;
+margin-bottom:10px;
+}
+
+.card p{
+color:#555;
+margin-bottom:10px;
+}
+
+.price{
+color:#00a651;
+font-size:26px;
+font-weight:bold;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn{
+display:block;
+text-align:center;
+
+
+background:#ff9900;
+
+color:white;
+
+text-decoration:none;
+
+padding:12px;
+
+border-radius:8px;
+
+margin-top:10px;
+
+border:none;
+
+cursor:pointer;
+
+font-weight:bold;
+
+transition:0.3s;
+
+
+}
+
+.btn:hover{
+    background:#e67e00;
+}
+
+/* ================= ORDER PAGE ================= */
+
+.page-title{
+text-align:center;
+margin:30px 0;
+}
+
+.delivered{
+color:green;
+font-weight:bold;
+}
+
+.empty-orders{
+text-align:center;
+margin-top:50px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+margin-top:50px;
+background:#131921;
+color:white;
+text-align:center;
+padding:20px;
+}
+/* REALISTIC NAVBAR */
+
+.welcome{
+    color:#ffcc00;
+    font-weight:bold;
+}
+
+.logout-btn{
+    background:#ff9900;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.logout-btn:hover{
+    background:#e67e00;
+}
+
+/* HERO SECTION */
+
+.hero{
+    background:linear-gradient(
+        135deg,
+        #4facfe,
+        #00f2fe
+    );
+
+    text-align:center;
+    padding:60px 20px;
+    color:white;
+}
+
+.hero h1{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+.shop-btn{
+    background:#ff9900;
+    color:white;
+    text-decoration:none;
+    padding:12px 25px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.shop-btn:hover{
+    background:#e67e00;
+}

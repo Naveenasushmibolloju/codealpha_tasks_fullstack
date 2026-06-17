@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="task-container">
+
+    <h2>{{ project.name }}</h2>
+
+    <div class="mb-3">
+
+        <a href="{% url 'edit_project' project.id %}"
+   class="btn btn-warning">
+   Edit Project
+</a>
+
+        <a href="{% url 'delete_project' project.id %}"
+           class="btn btn-danger">
+           Delete Project
+        </a>
+
+    </div>
+
+    <p>{{ project.description }}</p>
+
+    <hr>
+
+    <p>
+        <b>Owner:</b>
+        {{ project.owner }}
+    </p>
+
+    <p>
+        <b>Deadline:</b>
+        {{ project.deadline }}
+    </p>
+
+    <p>
+        <b>Total Tasks:</b>
+        {{ tasks.count }}
+    </p>
+    <hr>
+
+<div class="row mb-3">
+
+    <div class="col-md-3">
+        <div class="info-box">
+            <h6>Total Tasks</h6>
+            <p>{{ total_tasks }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="info-box">
+            <h6>Completed</h6>
+            <p>{{ completed_tasks }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="info-box">
+            <h6>In Progress</h6>
+            <p>{{ inprogress_tasks }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="info-box">
+            <h6>To Do</h6>
+            <p>{{ todo_tasks }}</p>
+        </div>
+    </div>
+
+</div>
+
+<p>
+    <b>Project Progress:</b>
+    {{ progress }}%
+</p>
+
+    <hr>
+
+    <h4>Project Tasks</h4>
+
+    {% for task in tasks %}
+
+        <div class="comment-box">
+
+            <a href="{% url 'task_detail' task.id %}">
+    {{ task.title }}
+</a>
+
+            <br>
+
+            Status:
+            <span class="status
+                {% if task.status == 'To Do' %}todo{% endif %}
+                {% if task.status == 'In Progress' %}progress{% endif %}
+                {% if task.status == 'Review' %}review{% endif %}
+                {% if task.status == 'Done' %}done{% endif %}"
+                {% if task.status == 'In Progress' %}style="display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:92px;height:auto;overflow:visible;padding:5px 12px;border-radius:20px;background:#f59e0b;color:white;white-space:nowrap;"{% endif %}>
+                {{ task.status }}
+            </span>
+
+        </div>
+
+    {% empty %}
+
+        <p class="text-muted">
+            No tasks available.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

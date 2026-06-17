@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="page-title">{{ title }}</h2>
+
+<div class="card-box">
+
+    <div class="kpi">
+
+        <div class="kpi-item purple">
+            <h6>Projects</h6>
+            <h2>{{ total_projects }}</h2>
+        </div>
+
+        <div class="kpi-item orange">
+            <h6>Tasks</h6>
+            <h2>{{ total_tasks }}</h2>
+        </div>
+
+        <div class="kpi-item green">
+            <h6>Completed</h6>
+            <h2>{{ completed_tasks }}</h2>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

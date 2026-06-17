@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .task-comments{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        margin-top:12px;
+    }
+
+    .task-comment{
+        display:flex;
+        gap:12px;
+        align-items:flex-start;
+        padding:14px;
+        border:1px solid #e2e8f0;
+        border-left:4px solid #6366f1;
+        border-radius:16px;
+        background:#ffffff;
+        box-shadow:0 10px 24px rgba(15,23,42,0.06);
+    }
+
+    .comment-avatar{
+        flex:0 0 42px;
+        width:42px;
+        height:42px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:50%;
+        background:linear-gradient(135deg,#6366f1,#06b6d4);
+        color:white;
+        font-weight:800;
+        font-size:16px;
+        text-transform:uppercase;
+        box-shadow:0 8px 18px rgba(99,102,241,0.26);
+    }
+
+    .comment-body{
+        min-width:0;
+        flex:1;
+    }
+
+    .comment-meta{
+        display:flex;
+        flex-wrap:wrap;
+        align-items:center;
+        gap:8px;
+        margin-bottom:6px;
+    }
+
+    .comment-name{
+        color:#0f172a;
+        font-weight:800;
+    }
+
+    .comment-at-name{
+        color:#6366f1;
+        font-size:13px;
+        font-weight:700;
+    }
+
+    .comment-time{
+        color:#94a3b8;
+        font-size:12px;
+    }
+
+    .comment-message{
+        color:#334155;
+        line-height:1.55;
+        margin:0;
+    }
+</style>
+
+<div class="task-container">
+
+    <!-- TASK HEADER -->
+    <div class="task-header">
+
+        <div>
+            <h2>{{ task.title }}</h2>
+            <p class="text-muted">{{ task.project.name }}</p>
+        </div>
+
+        <div>
+
+            <span class="badge bg-primary">
+                {{ task.status }}
+            </span>
+
+            <a href="{% url 'edit_task' task.id %}"
+               class="btn btn-warning ms-2">
+                Edit Task
+            </a>
+            <a href="{% url 'delete_task' task.id %}"
+   class="btn btn-danger ms-2">
+    Delete Task
+</a>
+
+        </div>
+
+    </div>
+
+    <div class="task-grid">
+
+        <!-- LEFT -->
+        <div class="task-main">
+
+            <h5>Description</h5>
+
+            <p>{{ task.description }}</p>
+
+            <hr>
+
+            <h5>Comments</h5>
+
+            <div class="task-comments">
+
+            {% for c in comments %}
+
+            <div class="task-comment">
+
+                <div class="comment-avatar">
+                    {{ c.user.username|first }}
+                </div>
+
+                <div class="comment-body">
+                    <div class="comment-meta">
+                        <span class="comment-name">{{ c.user.username }}</span>
+                        <span class="comment-at-name">@{{ c.user.username }}</span>
+                        <span class="comment-time">{{ c.created_at }}</span>
+                    </div>
+
+                    <p class="comment-message">{{ c.message }}</p>
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-muted">
+                No comments available.
+            </p>
+            
+
+            {% endfor %}
+
+            </div>
+            <hr>
+
+<h5>Add Comment</h5>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit"
+            class="btn btn-primary">
+        Add Comment
+    </button>
+
+</form>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="task-side">
+
+            <div class="info-box">
+                <h6>Assigned To</h6>
+                <p>{{ task.assigned_to.username }}</p>
+            </div>
+
+            <div class="info-box">
+                <h6>Priority</h6>
+                <p>{{ task.priority }}</p>
+            </div>
+
+            <div class="info-box">
+                <h6>Status</h6>
+                <p>{{ task.status }}</p>
+            </div>
+
+            <div class="info-box">
+                <h6>Due Date</h6>
+                <p>{{ task.due_date }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

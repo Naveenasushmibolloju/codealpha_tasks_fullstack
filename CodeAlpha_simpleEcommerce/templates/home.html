@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>TechStore Pro</title>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+<div class="logo">
+    <h1>
+        <span class="logo-icon">🛍️</span>
+        TechStore Pro
+    </h1>
+</div>
+
+<div class="nav-links">
+
+    <a href="/">🏠 Home</a>
+
+    <a href="/cart/">🛒 Cart</a>
+
+    <a href="/orders/">📦 Orders</a>
+
+    {% if user.is_authenticated %}
+
+        <span class="welcome">
+            👋 {{ user.username }}
+        </span>
+
+        <form action="/accounts/logout/" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+
+    {% else %}
+
+        <a href="/accounts/login/">🔐 Login</a>
+
+        <a href="/register/">👤 Register</a>
+
+    {% endif %}
+
+</div>
+</header>
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+    <h1>⚡ Next-Gen Tech Marketplace</h1>
+
+    <p>
+        Shop premium laptops, smartphones, smartwatches,
+        headphones and accessories from top brands.
+    </p>
+
+    <a href="#products" class="shop-btn">
+        🚀 Shop Now
+    </a>
+
+</div>
+
+</section>
+
+<!-- ================= SEARCH ================= -->
+
+<div class="search-section">
+
+<form method="GET" action="/" class="search-form">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="🔍 Search laptops, mobiles, headphones..."
+    >
+
+    <button type="submit" class="search-btn">
+        Search
+    </button>
+
+</form>
+
+
+</div>
+
+<!-- ================= PRODUCTS ================= -->
+
+<div class="products" id="products">
+
+{% for product in products %}
+
+<div class="card">
+
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+
+    <div class="card-content">
+
+        <h2>{{ product.name }}</h2>
+
+        <p>{{ product.description }}</p>
+
+        <p class="price">
+            ₹{{ product.price }}
+        </p>
+
+        <a href="/product/{{ product.id }}/" class="btn">
+            View Details
+        </a>
+
+        <a href="/add-to-cart/{{ product.id }}/" class="btn">
+            Add To Cart
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+<div class="footer-content">
+
+    <h2>🛍️ TechStore Pro</h2>
+
+    <p>
+        Your trusted destination for premium electronics,
+        gadgets and accessories.
+    </p>
+
+    <div class="footer-links">
+
+        <a href="/">Home</a>
+
+        <a href="/cart/">Cart</a>
+
+        <a href="/orders/">Orders</a>
+
+    </div>
+
+    <p>
+        📧 support@techstorepro.com
+    </p>
+
+    <p>
+        📱 +91 98765 43210
+    </p>
+
+    <p class="copyright">
+        © 2026 TechStore Pro. All Rights Reserved.
+    </p>
+
+</div>
+
+</footer>
+
+</body>
+</html>

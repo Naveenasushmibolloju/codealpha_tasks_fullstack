@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+    <h2>Edit Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <textarea
+            name="bio"
+            rows="4"
+        >{{ profile.bio }}</textarea>
+
+        <br><br>
+
+        <input
+            type="file"
+            name="profile_pic"
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Save Profile
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

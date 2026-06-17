@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="page-title">Search Results</h2>
+
+<div class="card-box">
+
+    <h4>Projects</h4>
+    {% for project in projects %}
+        <p>📁 {{ project.name }}</p>
+    {% empty %}
+    <p class="text-muted">No records available.</p>
+{% endfor %}
+
+    <h4 style="margin-top:20px;">Tasks</h4>
+    {% for task in tasks %}
+        <p>📌 {{ task.title }}</p>
+    {% empty %}
+    <p class="text-muted">No records available.</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}

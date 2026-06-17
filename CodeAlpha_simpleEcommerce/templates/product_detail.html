@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.name }}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <h1>{{ product.name }}</h1>
+</header>
+
+<div style="max-width:1000px; margin:30px auto;">
+
+    <div class="card">
+
+        <img src="{{ product.image }}" alt="{{ product.name }}">
+
+        <div class="card-content">
+
+            <h2>{{ product.name }}</h2>
+
+            <p>{{ product.description }}</p>
+
+            <h2 class="price">₹{{ product.price }}</h2>
+
+            <a href="/add-to-cart/{{ product.id }}/" class="btn">
+                Add To Cart
+            </a>
+
+            <a href="/" class="btn">
+                Back To Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

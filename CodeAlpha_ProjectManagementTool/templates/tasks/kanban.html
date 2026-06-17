@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .tasks-page{
+        background:linear-gradient(135deg,#f8fafc,#eef2ff 45%,#ecfeff);
+        border-radius:24px;
+        padding:26px;
+        box-shadow:0 22px 50px rgba(15,23,42,0.08);
+    }
+
+    .tasks-hero{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:18px;
+        margin-bottom:24px;
+    }
+
+    .tasks-title h2{
+        color:#0f172a;
+        font-size:30px;
+        font-weight:800;
+        margin-bottom:6px;
+    }
+
+    .tasks-title p{
+        color:#64748b;
+        margin:0;
+    }
+
+    .tasks-create-btn{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:11px 18px;
+        border:0;
+        border-radius:14px;
+        background:linear-gradient(135deg,#2563eb,#7c3aed);
+        color:white;
+        font-weight:700;
+        text-decoration:none;
+        box-shadow:0 14px 28px rgba(37,99,235,0.24);
+    }
+
+    .tasks-board{
+        display:grid;
+        grid-template-columns:repeat(4,minmax(230px,1fr));
+        gap:18px;
+        align-items:start;
+    }
+
+    .task-column{
+        min-height:560px;
+        padding:14px;
+        border:1px solid rgba(148,163,184,0.28);
+        border-radius:20px;
+        background:rgba(255,255,255,0.82);
+        box-shadow:0 16px 34px rgba(15,23,42,0.08);
+        backdrop-filter:blur(8px);
+    }
+
+    .task-column-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        min-height:46px;
+        padding:11px 13px;
+        border-radius:14px;
+        color:white;
+        font-weight:800;
+        white-space:nowrap;
+        margin-bottom:14px;
+    }
+
+    .task-column-header span{
+        display:inline-flex;
+        min-width:30px;
+        height:30px;
+        align-items:center;
+        justify-content:center;
+        border-radius:999px;
+        background:rgba(255,255,255,0.24);
+        font-size:14px;
+    }
+
+    .task-column-header.todo{background:linear-gradient(135deg,#64748b,#334155);}
+    .task-column-header.in-progress{background:linear-gradient(135deg,#f59e0b,#fb7185);}
+    .task-column-header.review{background:linear-gradient(135deg,#6366f1,#06b6d4);}
+    .task-column-header.done{background:linear-gradient(135deg,#10b981,#65a30d);}
+
+    .task-card{
+        display:block;
+        position:relative;
+        padding:16px;
+        border:1px solid #e2e8f0;
+        border-left:5px solid #94a3b8;
+        border-radius:16px;
+        background:white;
+        color:inherit;
+        text-decoration:none;
+        box-shadow:0 12px 28px rgba(15,23,42,0.08);
+        margin-bottom:12px;
+        transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .task-card:hover{
+        transform:translateY(-5px);
+        box-shadow:0 20px 38px rgba(15,23,42,0.14);
+        border-color:#cbd5e1;
+    }
+
+    .task-card.todo{border-left-color:#64748b;}
+    .task-card.in-progress{border-left-color:#f59e0b;}
+    .task-card.review{border-left-color:#6366f1;}
+    .task-card.done{border-left-color:#10b981;}
+
+    .task-card-top{
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        align-items:flex-start;
+        margin-bottom:10px;
+    }
+
+    .task-card h6{
+        color:#0f172a;
+        font-size:16px;
+        line-height:1.35;
+        font-weight:800;
+        margin:0;
+    }
+
+    .task-project{
+        display:flex;
+        align-items:center;
+        gap:6px;
+        color:#64748b;
+        font-size:13px;
+        margin-bottom:12px;
+    }
+
+    .task-description{
+        color:#475569;
+        font-size:13px;
+        line-height:1.5;
+        margin-bottom:14px;
+    }
+
+    .task-meta{
+        display:flex;
+        flex-wrap:wrap;
+        gap:8px;
+        align-items:center;
+    }
+
+    .task-chip{
+        display:inline-flex;
+        align-items:center;
+        gap:5px;
+        min-height:28px;
+        padding:5px 10px;
+        border-radius:999px;
+        font-size:12px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
+    .task-status.todo{background:#f1f5f9;color:#334155;}
+    .task-status.in-progress{background:#fff7ed;color:#c2410c;}
+    .task-status.review{background:#eef2ff;color:#4338ca;}
+    .task-status.done{background:#ecfdf5;color:#047857;}
+
+    .task-priority.low{background:#ecfdf5;color:#047857;}
+    .task-priority.medium{background:#fffbeb;color:#b45309;}
+    .task-priority.high{background:#fef2f2;color:#b91c1c;}
+
+    .task-due{
+        background:#f8fafc;
+        color:#475569;
+        border:1px solid #e2e8f0;
+    }
+
+    .task-empty{
+        min-height:120px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:18px;
+        border:1px dashed #cbd5e1;
+        border-radius:16px;
+        color:#94a3b8;
+        font-weight:600;
+        text-align:center;
+        background:rgba(248,250,252,0.74);
+    }
+
+    @media (max-width:1200px){
+        .tasks-board{
+            grid-template-columns:repeat(2,minmax(230px,1fr));
+        }
+    }
+
+    @media (max-width:760px){
+        .tasks-page{
+            padding:18px;
+        }
+
+        .tasks-hero{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .tasks-board{
+            grid-template-columns:1fr;
+        }
+    }
+</style>
+
+<div class="tasks-page">
+
+    <div class="tasks-hero">
+        <div class="tasks-title">
+            <h2>Task Management Board</h2>
+            <p>Track work by status, priority, project, and deadline.</p>
+        </div>
+
+        <a href="{% url 'create_task' %}" class="tasks-create-btn">
+            <i class="bi bi-plus-lg"></i>
+            Create Task
+        </a>
+    </div>
+
+    <div class="tasks-board">
+
+        <div class="task-column">
+            <div class="task-column-header todo">
+                To Do
+                <span>{{ todo_tasks|length }}</span>
+            </div>
+
+            {% for task in todo_tasks %}
+                <a href="{% url 'task_detail' task.id %}" class="task-card todo">
+                    <div class="task-card-top">
+                        <h6>{{ task.title }}</h6>
+                    </div>
+
+                    <div class="task-project">
+                        <i class="bi bi-folder2-open"></i>
+                        {{ task.project.name }}
+                    </div>
+
+                    {% if task.description %}
+                        <div class="task-description">{{ task.description|truncatechars:95 }}</div>
+                    {% endif %}
+
+                    <div class="task-meta">
+                        <span class="task-chip task-status todo">{{ task.status }}</span>
+                        <span class="task-chip task-priority {{ task.priority|lower }}">{{ task.priority }}</span>
+                        {% if task.assigned_to %}
+                            <span class="task-chip task-due"><i class="bi bi-person-circle"></i>{{ task.assigned_to.username }}</span>
+                        {% endif %}
+                        {% if task.due_date %}
+                            <span class="task-chip task-due"><i class="bi bi-calendar-event"></i>{{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="task-empty">No tasks yet</div>
+            {% endfor %}
+        </div>
+
+        <div class="task-column">
+            <div class="task-column-header in-progress">
+                In Progress
+                <span>{{ inprogress_tasks|length }}</span>
+            </div>
+
+            {% for task in inprogress_tasks %}
+                <a href="{% url 'task_detail' task.id %}" class="task-card in-progress">
+                    <div class="task-card-top">
+                        <h6>{{ task.title }}</h6>
+                    </div>
+
+                    <div class="task-project">
+                        <i class="bi bi-folder2-open"></i>
+                        {{ task.project.name }}
+                    </div>
+
+                    {% if task.description %}
+                        <div class="task-description">{{ task.description|truncatechars:95 }}</div>
+                    {% endif %}
+
+                    <div class="task-meta">
+                        <span class="task-chip task-status in-progress">{{ task.status }}</span>
+                        <span class="task-chip task-priority {{ task.priority|lower }}">{{ task.priority }}</span>
+                        {% if task.assigned_to %}
+                            <span class="task-chip task-due"><i class="bi bi-person-circle"></i>{{ task.assigned_to.username }}</span>
+                        {% endif %}
+                        {% if task.due_date %}
+                            <span class="task-chip task-due"><i class="bi bi-calendar-event"></i>{{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="task-empty">No active tasks</div>
+            {% endfor %}
+        </div>
+
+        <div class="task-column">
+            <div class="task-column-header review">
+                Review
+                <span>{{ review_tasks|length }}</span>
+            </div>
+
+            {% for task in review_tasks %}
+                <a href="{% url 'task_detail' task.id %}" class="task-card review">
+                    <div class="task-card-top">
+                        <h6>{{ task.title }}</h6>
+                    </div>
+
+                    <div class="task-project">
+                        <i class="bi bi-folder2-open"></i>
+                        {{ task.project.name }}
+                    </div>
+
+                    {% if task.description %}
+                        <div class="task-description">{{ task.description|truncatechars:95 }}</div>
+                    {% endif %}
+
+                    <div class="task-meta">
+                        <span class="task-chip task-status review">{{ task.status }}</span>
+                        <span class="task-chip task-priority {{ task.priority|lower }}">{{ task.priority }}</span>
+                        {% if task.assigned_to %}
+                            <span class="task-chip task-due"><i class="bi bi-person-circle"></i>{{ task.assigned_to.username }}</span>
+                        {% endif %}
+                        {% if task.due_date %}
+                            <span class="task-chip task-due"><i class="bi bi-calendar-event"></i>{{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="task-empty">No tasks in review</div>
+            {% endfor %}
+        </div>
+
+        <div class="task-column">
+            <div class="task-column-header done">
+                Done
+                <span>{{ done_tasks|length }}</span>
+            </div>
+
+            {% for task in done_tasks %}
+                <a href="{% url 'task_detail' task.id %}" class="task-card done">
+                    <div class="task-card-top">
+                        <h6>{{ task.title }}</h6>
+                    </div>
+
+                    <div class="task-project">
+                        <i class="bi bi-folder2-open"></i>
+                        {{ task.project.name }}
+                    </div>
+
+                    {% if task.description %}
+                        <div class="task-description">{{ task.description|truncatechars:95 }}</div>
+                    {% endif %}
+
+                    <div class="task-meta">
+                        <span class="task-chip task-status done">{{ task.status }}</span>
+                        <span class="task-chip task-priority {{ task.priority|lower }}">{{ task.priority }}</span>
+                        {% if task.assigned_to %}
+                            <span class="task-chip task-due"><i class="bi bi-person-circle"></i>{{ task.assigned_to.username }}</span>
+                        {% endif %}
+                        {% if task.due_date %}
+                            <span class="task-chip task-due"><i class="bi bi-calendar-event"></i>{{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="task-empty">No completed tasks</div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

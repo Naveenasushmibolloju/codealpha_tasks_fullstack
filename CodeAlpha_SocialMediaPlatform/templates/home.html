@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <h2>✨ Create Post</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <textarea
+name="content"
+rows="4"
+placeholder="Share something with your followers..."
+required>
+</textarea>
+        <br><br>
+        <button type="submit">🚀 Post</button>
+    </form>
+</div>
+
+{% for post in posts %}
+<div class="card">
+
+    <div style="display:flex;align-items:center;gap:10px;">
+
+    <img
+    src="{{ post.user.profile.profile_pic.url }}"
+    width="50"
+    height="50"
+    style="
+    border-radius:50%;
+    object-fit:cover;
+    ">
+
+    <div>
+        <a href="/profile/{{ post.user.username }}/">
+            <b>{{ post.user.username }}</b>
+        </a>
+    </div>
+
+</div>
+<small>
+{{ post.created_at }}
+</small>
+
+    <p>{{ post.content }}</p>
+    <small>
+🕒 {{ post.created_at|date:"M d, Y H:i" }}
+</small>
+
+<br><br>
+    {% if request.user == post.user %}
+    <a href="/delete-post/{{ post.id }}/">
+        <button>🗑 Delete</button>
+    </a>
+{% endif %}
+
+    <p>❤️ {{ post.total_likes }} Likes</p>
+
+    <a class="like" href="/like/{{ post.id }}/">❤️ Like / Unlike</a>
+
+    <form method="POST" action="/comment/{{ post.id }}/">
+        {% csrf_token %}
+        <input type="text" name="text" placeholder="💬 Write a comment">
+        <button type="submit">Send</button>
+    </form>
+
+    <div>
+        {% for c in post.comments.all %}
+            <div class="comment">
+                <b>{{ c.user.username }}</b>: {{ c.text }}
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endfor %}
+
+{% endblock %}

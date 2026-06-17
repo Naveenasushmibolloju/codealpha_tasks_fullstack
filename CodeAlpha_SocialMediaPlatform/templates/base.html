@@ -1,0 +1,274 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Media</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f6fa;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b, #6a11cb);
+            padding: 15px 25px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+            /* PREMIUM ADD-ON */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        /* animated gradient */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: bold;
+
+            /* PREMIUM ADD-ON */
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: yellow;
+
+            /* PREMIUM ADD-ON */
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .navbar b {
+            font-size: 22px;
+            letter-spacing: 1px;
+
+            /* PREMIUM ADD-ON */
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 45%;
+            margin: auto;
+            margin-top: 25px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+
+        /* ================= INPUTS ================= */
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        /* ================= BUTTON ================= */
+
+        button {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            transform: scale(1.05);
+        }
+
+        /* ================= LIKE ================= */
+
+        a.like {
+            color: #ff416c;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* ================= COMMENTS ================= */
+
+        .comment {
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
+        /* ================= HEADINGS ================= */
+
+        h2, h3 {
+            color: #333;
+        }
+        /* ================= PROFILE PAGE ================= */
+
+.profile-card{
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f8f9ff
+    );
+}
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.profile-pic{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #6a11cb;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.stats{
+    display:flex;
+    gap:15px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.stats span{
+    background:#f4f4f4;
+    padding:10px 15px;
+    border-radius:12px;
+    font-weight:bold;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ================= POST CARDS ================= */
+
+.post-card{
+    border-left:5px solid #6a11cb;
+}
+
+.post-card p{
+    line-height:1.6;
+    font-size:16px;
+}
+
+/* ================= LINKS ================= */
+
+a{
+    text-decoration:none;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+    background:#222;
+    color:white;
+    font-size:14px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    .container{
+        width:90%;
+    }
+
+    .profile-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .stats{
+        justify-content:center;
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div><b>🔥 SocialMedia</b></div>
+
+    <div>
+
+{% if user.is_authenticated %}
+
+<a href="/">Home</a>
+
+<a href="/profile/{{ user.username }}/">
+My Profile
+</a>
+
+<a href="/logout/">Logout</a>
+
+{% else %}
+
+<a href="/login/">Login</a>
+
+<a href="/register/">Register</a>
+
+{% endif %}
+
+</div>
+</div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+<footer>
+    © 2026 SocialMedia Platform |
+    Full Stack Project using Django
+</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card profile-card">
+
+    <div class="profile-header">
+
+        <img
+        src="{{ profile.profile_pic.url }}"
+        class="profile-pic"
+        alt="Profile Picture">
+
+        <div>
+
+            <h1>👤 {{ profile_user.username }}</h1>
+
+            <p>{{ profile.bio }}</p>
+
+            <div class="stats">
+                <span>👥 {{ profile.followers.count }} Followers</span>
+                <span>➡️ {{ profile_user.following.count }} Following</span>
+            </div>
+
+            {% if request.user == profile_user %}
+                <a href="/edit-profile/">
+                    <button>Edit Profile</button>
+                </a>
+            {% endif %}
+
+            {% if request.user != profile_user %}
+                <a href="/follow/{{ profile_user.username }}/">
+                    <button>Follow / Unfollow</button>
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <h2>📝 Posts</h2>
+
+    {% for post in posts %}
+
+        <div class="comment">
+
+            <p>{{ post.content }}</p>
+
+            <small>
+                ❤️ {{ post.total_likes }}
+            </small>
+
+        </div>
+
+        <br>
+
+    {% empty %}
+
+        <p>No posts yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

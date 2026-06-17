@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .analytics-dashboard{
+        background:
+            radial-gradient(circle at top left,rgba(255,107,107,0.38),transparent 32%),
+            radial-gradient(circle at top right,rgba(59,130,246,0.38),transparent 32%),
+            radial-gradient(circle at bottom left,rgba(16,185,129,0.36),transparent 34%),
+            linear-gradient(135deg,#fff1f2,#fef3c7 32%,#dcfce7 64%,#dbeafe) !important;
+        border:3px solid #ffffff;
+        border-radius:24px;
+        padding:28px;
+        box-shadow:0 24px 55px rgba(15,23,42,0.14);
+    }
+
+    .analytics-dashboard h2{
+        display:inline-block;
+        background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981,#06b6d4,#6366f1,#a855f7);
+        -webkit-background-clip:text;
+        background-clip:text;
+        color:transparent;
+        font-weight:800;
+        margin-bottom:22px;
+    }
+
+    .analytics-dashboard .stats-grid{
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:22px;
+    }
+
+    .analytics-dashboard .analytics-stat{
+        position:relative;
+        overflow:hidden;
+        min-height:185px;
+        padding:24px;
+        border:2px solid rgba(255,255,255,0.65);
+        border-radius:22px;
+        color:#ffffff;
+        box-shadow:0 18px 36px rgba(15,23,42,0.2);
+    }
+
+    .analytics-dashboard .analytics-icon{
+        width:52px;
+        height:52px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:16px;
+        background:rgba(255,255,255,0.25);
+        font-size:25px;
+        margin-bottom:18px;
+    }
+
+    .analytics-dashboard .analytics-stat h3{
+        font-size:18px;
+        font-weight:600;
+        color:#ffffff;
+        margin-bottom:8px;
+    }
+
+    .analytics-dashboard .analytics-stat p{
+        font-size:44px;
+        line-height:1;
+        font-weight:800;
+        color:#ffffff;
+        margin:0;
+    }
+
+    .analytics-projects{
+        background:linear-gradient(135deg,#ff3d77,#ff8a00,#ffd166) !important;
+    }
+
+    .analytics-tasks{
+        background:linear-gradient(135deg,#00c2ff,#2563eb,#7c3aed) !important;
+    }
+
+    .analytics-completed{
+        background:linear-gradient(135deg,#00d084,#16a34a,#c4f000) !important;
+    }
+
+    @media (max-width:900px){
+        .analytics-dashboard .stats-grid{
+            grid-template-columns:1fr;
+        }
+    }
+</style>
+
+<div class="dashboard analytics-dashboard">
+
+    <h2>Analytics</h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card analytics-stat analytics-projects">
+            <span class="analytics-icon"><i class="bi bi-kanban"></i></span>
+            <h3>Projects</h3>
+            <p>{{ total_projects }}</p>
+        </div>
+
+        <div class="stat-card analytics-stat analytics-tasks">
+            <span class="analytics-icon"><i class="bi bi-list-check"></i></span>
+            <h3>Tasks</h3>
+            <p>{{ total_tasks }}</p>
+        </div>
+
+        <div class="stat-card analytics-stat analytics-completed">
+            <span class="analytics-icon"><i class="bi bi-check2-circle"></i></span>
+            <h3>Completed</h3>
+            <p>{{ completed_tasks }}</p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

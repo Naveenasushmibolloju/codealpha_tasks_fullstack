@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .notifications-page{
+        background:linear-gradient(135deg,#f8fafc,#eef2ff 52%,#ecfeff);
+        border-radius:24px;
+        padding:26px;
+        box-shadow:0 22px 50px rgba(15,23,42,0.08);
+    }
+
+    .notifications-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:16px;
+        margin-bottom:20px;
+    }
+
+    .notifications-header h2{
+        color:#0f172a;
+        font-weight:800;
+        margin:0 0 4px;
+    }
+
+    .notifications-header p{
+        color:#64748b;
+        margin:0;
+    }
+
+    .notifications-read-btn{
+        border:0;
+        border-radius:14px;
+        padding:10px 16px;
+        color:white;
+        font-weight:700;
+        background:linear-gradient(135deg,#6366f1,#06b6d4);
+        box-shadow:0 12px 24px rgba(99,102,241,0.2);
+    }
+
+    .notifications-list{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+
+    .notification-item{
+        display:flex;
+        gap:14px;
+        align-items:flex-start;
+        padding:16px;
+        border-radius:18px;
+        border:1px solid #e2e8f0;
+        background:#ffffff;
+        box-shadow:0 12px 28px rgba(15,23,42,0.07);
+    }
+
+    .notification-item.unread{
+        border-left:5px solid #6366f1;
+        background:#ffffff;
+    }
+
+    .notification-icon{
+        flex:0 0 44px;
+        width:44px;
+        height:44px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:15px;
+        color:white;
+        background:linear-gradient(135deg,#6366f1,#06b6d4);
+    }
+
+    .notification-content{
+        flex:1;
+    }
+
+    .notification-content p{
+        color:#1e293b;
+        font-weight:700;
+        margin:0 0 6px;
+    }
+
+    .notification-content small{
+        color:#94a3b8;
+    }
+
+    .notification-state{
+        display:inline-flex;
+        align-items:center;
+        min-height:26px;
+        padding:4px 9px;
+        border-radius:999px;
+        color:#4338ca;
+        background:#eef2ff;
+        font-size:12px;
+        font-weight:800;
+    }
+
+    .notifications-empty{
+        padding:28px;
+        border:1px dashed #cbd5e1;
+        border-radius:18px;
+        color:#94a3b8;
+        text-align:center;
+        background:rgba(255,255,255,0.72);
+    }
+</style>
+
+<div class="notifications-page">
+    <div class="notifications-header">
+        <div>
+            <h2>Notifications</h2>
+            <p>{{ unread_count }} unread update{{ unread_count|pluralize }} from your workspace.</p>
+        </div>
+
+        {% if notifications %}
+            <form action="{% url 'mark_notifications_read' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="notifications-read-btn">
+                    <i class="bi bi-check2-all"></i>
+                    Mark all read
+                </button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="notifications-list">
+        {% for n in notifications %}
+            <div class="notification-item {% if not n.is_read %}unread{% endif %}">
+                <div class="notification-icon">
+                    <i class="bi bi-bell-fill"></i>
+                </div>
+
+                <div class="notification-content">
+                    <p>{{ n.message }}</p>
+                    <small>{{ n.created_at }}</small>
+                </div>
+
+                {% if not n.is_read %}
+                    <span class="notification-state">New</span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="notifications-empty">
+                No notifications yet. New project and task activity will appear here.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
