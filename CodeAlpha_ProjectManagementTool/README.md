@@ -130,13 +130,3 @@ https://drive.google.com/file/d/1Njtr7TTa4PYU4SIzS95YfzXJlt798mdc/view?usp=drive
 * Monitor Team Activities
 * Receive Notifications
 * View Project Analytics
-
----
-
-## 📌 Project Type
-
-**CodeAlpha Internship - Task 3**
-
-**Project Management Tool**
-
-A collaborative platform inspired by Trello and Asana for managing projects, tasks, teams, and communication efficiently.
